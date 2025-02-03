@@ -6,16 +6,19 @@ export default function App() {
   const [memos, setMemos] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [contents, setContents] = useState('新規メモ');
+  const [isEditing, setIsEditing] = useState(false);
 
   function handleClick(id) {
     setSelectedId(id);
     const memo = memos.find((memo) => memo.id === id);
     setContents(memo.contents.join('\n'));
+    setIsEditing(true);
   }
 
   function handleAdd() {
-    setContents('新規メモ');
     setSelectedId(null);
+    setContents('新規メモ');
+    setIsEditing(true);
   }
 
   function handleSubmit(e) {
@@ -40,7 +43,7 @@ export default function App() {
     } else {
       localStorage.setItem(selectedId, JSON.stringify(newContents));
     }
-  };
+  }
 
   function handleChange(e) {
     setContents(e.target.value);
@@ -54,6 +57,7 @@ export default function App() {
         return updatedMemos;
       });
     }
+    setIsEditing(false);
   }
 
   return (
@@ -76,22 +80,24 @@ export default function App() {
           </div>
         </ul>
         <div className="selectedMemoBar">
-          <div className="selectedMemoDetail">
-            <form onSubmit={handleSubmit}>
-              <textarea
-                type="text"
-                name="memo"
-                value={contents}
-                onChange={handleChange}
-              />
-              <button type="submit" className="edit">
-                編集
+          {isEditing && (
+            <div className="selectedMemoDetail">
+              <form onSubmit={handleSubmit}>
+                <textarea
+                  type="text"
+                  name="memo"
+                  value={contents}
+                  onChange={handleChange}
+                />
+                <button type="submit" className="edit">
+                  編集
+                </button>
+              </form>
+              <button type="delete" className="delete" onClick={handleDelete}>
+                削除
               </button>
-            </form>
-            <button type="delete" className="delete" onClick={handleDelete}>
-              削除
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>
