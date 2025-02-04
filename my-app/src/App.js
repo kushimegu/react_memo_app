@@ -1,6 +1,80 @@
 import { React, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import './App.css';
+
+function Memo({ memo, handleClick }) {
+  return (
+    <div
+      onClick={() => {
+        handleClick(memo.id);
+      }}
+    >
+      {memo.contents[0]}
+    </div>
+  );
+}
+Memo.propTypes = {
+  memo: PropTypes.object,
+  handleClick: PropTypes.func,
+  key: PropTypes.string,
+};
+
+function MemoList({ memos, handleAdd, handleClick }) {
+  return (
+    <ul>
+      {memos.map((memo) => (
+        <li key={memo.id}>
+          <Memo memo={memo} handleClick={handleClick} />
+        </li>
+      ))}
+      <div className="addMemo" onClick={handleAdd}>
+        +
+      </div>
+    </ul>
+  );
+}
+MemoList.propTypes = {
+  memos: PropTypes.array,
+  handleAdd: PropTypes.func,
+  handleClick: PropTypes.func,
+};
+
+function SelectedMemoBar({
+  contents,
+  isEditing,
+  handleSubmit,
+  handleChange,
+  handleDelete,
+}) {
+  return (
+    <div className="selectedMemoBar">
+      {isEditing && (
+        <div className="selectedMemoDetail">
+          <form onSubmit={handleSubmit}>
+            <textarea
+              value={contents}
+              onChange={handleChange}
+            />
+            <button type="submit" className="edit-btn">
+              編集
+            </button>
+          </form>
+          <button type="delete" className="delete-btn" onClick={handleDelete}>
+            削除
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+SelectedMemoBar.propTypes = {
+  contents: PropTypes.array,
+  isEditing: PropTypes.bool,
+  handleSubmit: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleDelete: PropTypes.func,
+};
 
 export default function App() {
   const [memos, setMemos] = useState([]);
@@ -63,42 +137,18 @@ export default function App() {
   return (
     <>
       <div className="memoDetails">
-        <ul className="memoList">
-          {memos.map((memo) => (
-            <li key={memo.id}>
-              <div
-                onClick={() => {
-                  handleClick(memo.id);
-                }}
-              >
-                {memo.contents[0]}
-              </div>
-            </li>
-          ))}
-          <div className="addMemo" onClick={handleAdd}>
-            +
-          </div>
-        </ul>
-        <div className="selectedMemoBar">
-          {isEditing && (
-            <div className="selectedMemoDetail">
-              <form onSubmit={handleSubmit}>
-                <textarea
-                  type="text"
-                  name="memo"
-                  value={contents}
-                  onChange={handleChange}
-                />
-                <button type="submit" className="edit">
-                  編集
-                </button>
-              </form>
-              <button type="delete" className="delete" onClick={handleDelete}>
-                削除
-              </button>
-            </div>
-          )}
-        </div>
+        <MemoList
+          memos={memos}
+          handleAdd={handleAdd}
+          handleClick={handleClick}
+        />
+        <SelectedMemoBar
+          contents={contents}
+          isEditing={isEditing}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleDelete={handleDelete}
+        />
       </div>
     </>
   );
