@@ -9,9 +9,9 @@ export default function SelectedMemoBar({
   handleDelete,
 }) {
   return (
-    <div className="selectedMemoBar">
+    <div className="selected-memo-bar">
       {isEditing && (
-        <div className="selectedMemoDetail">
+        <div>
           <form onSubmit={handleSubmit}>
             <textarea
               value={contents}
