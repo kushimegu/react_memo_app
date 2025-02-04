@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Memo from './Memo.js';
+import Memo from "./Memo.js";
 
 export default function MemoList({
   memos,
@@ -14,15 +14,12 @@ export default function MemoList({
       {memos.map((memo) => (
         <li
           key={memo.id}
-          className={selectedId === memo.id ? 'selected-text' : 'text-list'}
+          className={selectedId === memo.id ? "selected-text" : "text-list"}
         >
           <Memo memo={memo} handleClick={handleClick} />
         </li>
       ))}
-      <div
-        className='add-memo'
-        onClick={handleAdd}
-      >
+      <div className="add-memo" onClick={handleAdd}>
         +
       </div>
     </ul>

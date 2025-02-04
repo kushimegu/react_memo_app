@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default function SelectedMemoBar({
   contents,
@@ -13,10 +13,7 @@ export default function SelectedMemoBar({
       {isEditing && (
         <div>
           <form onSubmit={handleSubmit}>
-            <textarea
-              value={contents}
-              onChange={handleChange}
-            />
+            <textarea value={contents} onChange={handleChange} />
             <button type="submit" className="edit-btn">
               編集
             </button>

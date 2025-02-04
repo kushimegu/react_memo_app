@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default function Memo({ memo, handleClick }) {
   return (
@@ -16,5 +16,4 @@ export default function Memo({ memo, handleClick }) {
 Memo.propTypes = {
   memo: PropTypes.object,
   handleClick: PropTypes.func,
-  key: PropTypes.string,
 };
