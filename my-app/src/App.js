@@ -36,7 +36,6 @@ export default function App() {
         );
       } else {
         updatedMemos = [...previousMemos, { id: newId, contents: newContents }];
-        setSelectedId(newId);
       }
       return updatedMemos;
     });
@@ -44,6 +43,7 @@ export default function App() {
       localStorage.setItem(selectedId, JSON.stringify(newContents));
     } else {
       localStorage.setItem(newId, JSON.stringify(newContents));
+      setSelectedId(newId);
     }
   }
 
