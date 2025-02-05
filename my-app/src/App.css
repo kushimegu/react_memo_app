@@ -1,23 +1,23 @@
-.memos {
+.memo-app {
   display: flex;
 }
 
 .memo-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-.text-list {
+.title-list {
   color: blue;
   text-decoration: underline;
 }
 
-.selected-text {
+.selected-title {
   color: black;
 }
 
-.add-memo {
+.plus-sign {
   color: blue;
   text-decoration: none;
 }
@@ -32,7 +32,7 @@ textarea {
   border: solid 1px;
   border-radius: 8px;
   width: 100%;
-  height: 300px;
+  height: 200px;
   box-sizing: border-box;
 }
 
@@ -45,8 +45,8 @@ button {
 }
 
 .edit-btn {
-  width: 78%;
   margin-right: 2%;
+  width: 78%;
 }
 
 .delete-btn {

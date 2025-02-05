@@ -14,12 +14,12 @@ export default function MemoList({
       {memos.map((memo) => (
         <li
           key={memo.id}
-          className={selectedId === memo.id ? "selected-text" : "text-list"}
+          className={selectedId === memo.id ? "selected-title" : "title-list"}
         >
           <Memo memo={memo} handleClick={handleClick} />
         </li>
       ))}
-      <div className="add-memo" onClick={handleAdd}>
+      <div className="plus-sign" onClick={handleAdd}>
         +
       </div>
     </ul>

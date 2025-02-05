@@ -65,7 +65,7 @@ export default function App() {
   }
 
   return (
-    <div className="memos">
+    <div className="memo-app">
       <MemoList
         memos={memos}
         selectedId={selectedId}
