@@ -10,16 +10,16 @@ export default function App() {
   const [contents, setContents] = useState("新規メモ");
   const [isEditing, setIsEditing] = useState(false);
 
+  function handleAdd() {
+    setSelectedId(null);
+    setContents("新規メモ");
+    setIsEditing(true);
+  }
+
   function handleClick(id) {
     setSelectedId(id);
     const memo = memos.find((memo) => memo.id === id);
     setContents(memo.contents.join("\n"));
-    setIsEditing(true);
-  }
-
-  function handleAdd() {
-    setSelectedId(null);
-    setContents("新規メモ");
     setIsEditing(true);
   }
 
