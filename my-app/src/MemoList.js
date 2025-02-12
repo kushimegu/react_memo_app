@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import Memo from "./Memo.js";
+import { LoginContext } from "./App.js";
 
 export default function MemoList({
   memos,
@@ -9,6 +10,7 @@ export default function MemoList({
   handleAdd,
   handleClick,
 }) {
+  const login = useContext(LoginContext);
   return (
     <ul className="memo-list">
       {memos.map((memo) => (
@@ -19,9 +21,11 @@ export default function MemoList({
           <Memo memo={memo} handleClick={handleClick} />
         </li>
       ))}
-      <div className="plus-sign" onClick={handleAdd}>
-        +
-      </div>
+      {login && (
+        <div className="plus-sign" onClick={handleAdd}>
+          +
+        </div>
+      )}
     </ul>
   );
 }
