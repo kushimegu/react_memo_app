@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import {ulid} from 'ulid'
 
 import "./App.css";
 import MemoList from "./MemoList.js";
@@ -11,6 +12,7 @@ export default function App() {
     const contents = JSON.parse(localStorage.getItem(key));
     allMemos.push({ id: key, contents });
   }
+  allMemos.sort((memo1, memo2) => memo1.id < memo2.id ? -1 : 1);
 
   const [memos, setMemos] = useState(allMemos);
   const [selectedId, setSelectedId] = useState(null);
@@ -33,7 +35,7 @@ export default function App() {
   function handleSubmit(e) {
     e.preventDefault();
     const newContents = contents.split("\n");
-    const newId = crypto.randomUUID();
+    const newId = ulid();
     if (selectedId) {
       setMemos((previousMemos) => {
         const updatedMemos = previousMemos.map((memo) =>
