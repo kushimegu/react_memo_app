@@ -5,7 +5,14 @@ import MemoList from "./MemoList.js";
 import SelectedMemoBar from "./SelectedMemoBar.js";
 
 export default function App() {
-  const [memos, setMemos] = useState([]);
+  const allMemos = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const contents = JSON.parse(localStorage.getItem(key));
+    allMemos.push({ id: key, contents });
+  }
+
+  const [memos, setMemos] = useState(allMemos);
   const [selectedId, setSelectedId] = useState(null);
   const [contents, setContents] = useState("新規メモ");
   const [isEditing, setIsEditing] = useState(false);
@@ -27,21 +34,19 @@ export default function App() {
     e.preventDefault();
     const newContents = contents.split("\n");
     const newId = crypto.randomUUID();
-    setMemos((previousMemos) => {
-      const memoExists = previousMemos.some((memo) => memo.id === selectedId);
-      let updatedMemos;
-      if (memoExists) {
-        updatedMemos = previousMemos.map((memo) =>
+    if (selectedId) {
+      setMemos((previousMemos) => {
+        const updatedMemos = previousMemos.map((memo) =>
           memo.id === selectedId ? { ...memo, contents: newContents } : memo,
         );
-      } else {
-        updatedMemos = [...previousMemos, { id: newId, contents: newContents }];
-      }
-      return updatedMemos;
-    });
-    if (selectedId) {
+        return updatedMemos;
+      });
       localStorage.setItem(selectedId, JSON.stringify(newContents));
     } else {
+      setMemos((previousMemos) => [
+        ...previousMemos,
+        { id: newId, contents: newContents },
+      ]);
       localStorage.setItem(newId, JSON.stringify(newContents));
       setSelectedId(newId);
     }
