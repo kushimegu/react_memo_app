@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import {ulid} from 'ulid'
+import { ulid } from "ulid";
 
 import "./App.css";
 import MemoList from "./MemoList.js";
@@ -12,27 +12,25 @@ export default function App() {
     const contents = JSON.parse(localStorage.getItem(key));
     allMemos.push({ id: key, contents });
   }
-  allMemos.sort((memo1, memo2) => memo1.id < memo2.id ? -1 : 1);
+  allMemos.sort((memo1, memo2) => (memo1.id < memo2.id ? -1 : 1));
 
   const [memos, setMemos] = useState(allMemos);
   const [selectedId, setSelectedId] = useState(null);
-  const [contents, setContents] = useState("新規メモ");
   const [isEditing, setIsEditing] = useState(false);
 
   function handleAdd() {
     setSelectedId(null);
-    setContents("新規メモ");
     setIsEditing(true);
   }
 
   function handleClick(id) {
     setSelectedId(id);
-    const memo = memos.find((memo) => memo.id === id);
-    setContents(memo.contents.join("\n"));
+    // const memo = memos.find((memo) => memo.id === id);
+    // setContents(memo.contents.join("\n"));
     setIsEditing(true);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e, contents) => {
     e.preventDefault();
     const newContents = contents.split("\n");
     const newId = ulid();
@@ -52,11 +50,7 @@ export default function App() {
       localStorage.setItem(newId, JSON.stringify(newContents));
       setSelectedId(newId);
     }
-  }
-
-  function handleChange(e) {
-    setContents(e.target.value);
-  }
+  };
 
   function handleDelete() {
     localStorage.removeItem(selectedId);
@@ -79,13 +73,12 @@ export default function App() {
         handleAdd={handleAdd}
         handleClick={handleClick}
       />
-      <SelectedMemoBar
-        contents={contents}
-        isEditing={isEditing}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        handleDelete={handleDelete}
-      />
+      {isEditing && (
+        <SelectedMemoBar
+          handleSubmit={handleSubmit}
+          handleDelete={handleDelete}
+        />
+      )}
     </div>
   );
 }
