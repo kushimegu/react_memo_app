@@ -18,6 +18,11 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  const selectedMemo = memos.find((memo) => memo.id === selectedId);
+  const selectedMemoContent = selectedId
+    ? selectedMemo.contents.join("\n")
+    : "新規メモ";
+
   function handleAdd() {
     setSelectedId(null);
     setIsEditing(true);
@@ -25,8 +30,6 @@ export default function App() {
 
   function handleClick(id) {
     setSelectedId(id);
-    // const memo = memos.find((memo) => memo.id === id);
-    // setContents(memo.contents.join("\n"));
     setIsEditing(true);
   }
 
@@ -53,15 +56,14 @@ export default function App() {
   };
 
   function handleDelete() {
+    setMemos((previousMemos) => {
+      const updatedMemos = previousMemos.filter(
+        (memo) => memo.id !== selectedId,
+      );
+      return updatedMemos;
+    });
     localStorage.removeItem(selectedId);
-    if (selectedId) {
-      setMemos((previousMemos) => {
-        const updatedMemos = previousMemos.filter(
-          (memo) => memo.id !== selectedId,
-        );
-        return updatedMemos;
-      });
-    }
+    setSelectedId(null);
     setIsEditing(false);
   }
 
@@ -75,6 +77,8 @@ export default function App() {
       />
       {isEditing && (
         <SelectedMemoBar
+          key={selectedId}
+          initialMemoContent={selectedMemoContent}
           handleSubmit={handleSubmit}
           handleDelete={handleDelete}
         />

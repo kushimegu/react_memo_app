@@ -1,8 +1,12 @@
 import { React, useState } from "react";
 import PropTypes from "prop-types";
 
-export default function SelectedMemoBar({ handleSubmit, handleDelete }) {
-  const [contents, setContents] = useState("新規メモ");
+export default function SelectedMemoBar({
+  initialMemoContent,
+  handleSubmit,
+  handleDelete,
+}) {
+  const [contents, setContents] = useState(initialMemoContent);
 
   const onSubmit = (e) => {
     handleSubmit(e, contents);
@@ -30,6 +34,7 @@ export default function SelectedMemoBar({ handleSubmit, handleDelete }) {
 }
 
 SelectedMemoBar.propTypes = {
+  initialMemoContent: PropTypes.string,
   handleSubmit: PropTypes.func,
   handleDelete: PropTypes.func,
 };
