@@ -22,7 +22,7 @@ export default function SelectedMemoBar({
         <form onSubmit={onSubmit}>
           <textarea value={content} onChange={handleChange} />
           <button type="submit" className="edit-btn">
-            編集
+            更新
           </button>
         </form>
         <button type="delete" className="delete-btn" onClick={handleDelete}>
