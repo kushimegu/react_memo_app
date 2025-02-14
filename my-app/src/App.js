@@ -33,24 +33,24 @@ export default function App() {
     setIsEditing(true);
   }
 
-  const handleSubmit = (e, contents) => {
+  const handleSubmit = (e, content) => {
     e.preventDefault();
-    const newContents = contents.split("\n");
+    const newContent = content.split("\n");
     const newId = ulid();
     if (selectedId) {
       setMemos((previousMemos) => {
         const updatedMemos = previousMemos.map((memo) =>
-          memo.id === selectedId ? { ...memo, contents: newContents } : memo,
+          memo.id === selectedId ? { ...memo, contents: newContent } : memo,
         );
         return updatedMemos;
       });
-      localStorage.setItem(selectedId, JSON.stringify(newContents));
+      localStorage.setItem(selectedId, JSON.stringify(newContent));
     } else {
       setMemos((previousMemos) => [
         ...previousMemos,
-        { id: newId, contents: newContents },
+        { id: newId, contents: newContent },
       ]);
-      localStorage.setItem(newId, JSON.stringify(newContents));
+      localStorage.setItem(newId, JSON.stringify(newContent));
       setSelectedId(newId);
     }
   };

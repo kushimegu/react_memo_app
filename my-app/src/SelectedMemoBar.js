@@ -6,21 +6,21 @@ export default function SelectedMemoBar({
   handleSubmit,
   handleDelete,
 }) {
-  const [contents, setContents] = useState(initialMemoContent);
+  const [content, setContent] = useState(initialMemoContent);
 
   const onSubmit = (e) => {
-    handleSubmit(e, contents);
+    handleSubmit(e, content);
   };
 
   function handleChange(e) {
-    setContents(e.target.value);
+    setContent(e.target.value);
   }
 
   return (
     <div className="selected-memo-bar">
       <div>
         <form onSubmit={onSubmit}>
-          <textarea value={contents} onChange={handleChange} />
+          <textarea value={content} onChange={handleChange} />
           <button type="submit" className="edit-btn">
             編集
           </button>
