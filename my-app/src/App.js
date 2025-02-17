@@ -15,69 +15,70 @@ export default function App() {
   allMemos.sort((memo1, memo2) => (memo1.id < memo2.id ? -1 : 1));
 
   const [memos, setMemos] = useState(allMemos);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const [status, setStatus] = useState({
+    selectedId: null,
+    isEditing: false,
+  });
 
-  const selectedMemo = memos.find((memo) => memo.id === selectedId);
-  const selectedMemoContent = selectedId
+  const selectedMemo = memos.find((memo) => memo.id === status.selectedId);
+  const selectedMemoContent = status.selectedId
     ? selectedMemo.contents.join("\n")
     : "新規メモ";
 
   function handleAdd() {
-    setSelectedId(null);
-    setIsEditing(true);
+    setStatus({ selectedId: null, isEditing: true });
   }
 
   function handleClick(id) {
-    setSelectedId(id);
-    setIsEditing(true);
+    setStatus({ selectedId: id, isEditing: true });
   }
 
   const handleSubmit = (e, content) => {
     e.preventDefault();
     const newContent = content.split("\n");
     const newId = ulid();
-    if (selectedId) {
+    if (status.selectedId) {
       setMemos((previousMemos) => {
         const updatedMemos = previousMemos.map((memo) =>
-          memo.id === selectedId ? { ...memo, contents: newContent } : memo,
+          memo.id === status.selectedId
+            ? { ...memo, contents: newContent }
+            : memo,
         );
         return updatedMemos;
       });
-      localStorage.setItem(selectedId, JSON.stringify(newContent));
+      localStorage.setItem(status.selectedId, JSON.stringify(newContent));
     } else {
       setMemos((previousMemos) => [
         ...previousMemos,
         { id: newId, contents: newContent },
       ]);
       localStorage.setItem(newId, JSON.stringify(newContent));
-      setSelectedId(newId);
+      setStatus({ selectedId: newId, isEditing: true });
     }
   };
 
   function handleDelete() {
     setMemos((previousMemos) => {
       const updatedMemos = previousMemos.filter(
-        (memo) => memo.id !== selectedId,
+        (memo) => memo.id !== status.selectedId,
       );
       return updatedMemos;
     });
-    localStorage.removeItem(selectedId);
-    setSelectedId(null);
-    setIsEditing(false);
+    localStorage.removeItem(status.selectedId);
+    setStatus({ selectedId: null, isEditing: false });
   }
 
   return (
     <div className="memo-app">
       <MemoList
         memos={memos}
-        selectedId={selectedId}
+        selectedId={status.selectedId}
         handleAdd={handleAdd}
         handleClick={handleClick}
       />
-      {isEditing && (
+      {status.isEditing && (
         <SelectedMemoBar
-          key={selectedId}
+          key={status.selectedId}
           initialMemoContent={selectedMemoContent}
           handleSubmit={handleSubmit}
           handleDelete={handleDelete}
