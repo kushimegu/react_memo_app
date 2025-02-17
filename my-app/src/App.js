@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { ulid } from "ulid";
 
 import "./App.css";
@@ -6,19 +6,22 @@ import MemoList from "./MemoList.js";
 import SelectedMemoBar from "./SelectedMemoBar.js";
 
 export default function App() {
-  const allMemos = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const contents = JSON.parse(localStorage.getItem(key));
-    allMemos.push({ id: key, contents });
-  }
-  allMemos.sort((memo1, memo2) => (memo1.id < memo2.id ? -1 : 1));
-
-  const [memos, setMemos] = useState(allMemos);
+  const [memos, setMemos] = useState([]);
   const [status, setStatus] = useState({
     selectedId: null,
     isEditing: false,
   });
+
+  useEffect(() => {
+    const allMemos = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const contents = JSON.parse(localStorage.getItem(key));
+      allMemos.push({ id: key, contents });
+    }
+    allMemos.sort((memo1, memo2) => (memo1.id < memo2.id ? -1 : 1));
+    setMemos(allMemos)
+  }, []);
 
   const selectedMemo = memos.find((memo) => memo.id === status.selectedId);
   const selectedMemoContent = status.selectedId
