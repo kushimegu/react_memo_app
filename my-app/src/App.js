@@ -35,17 +35,17 @@ export default function App() {
 
   const handleSubmit = (e, content) => {
     e.preventDefault();
-    const newContent = content.split("\n");
+    const newContents = content.split("\n");
     setMemos((prevMemos) => {
       const memoExists = prevMemos.some((memo) => memo.id === selectedId);
       const updatedMemos = memoExists
         ? prevMemos.map((memo) =>
-            memo.id === selectedId ? { ...memo, contents: newContent } : memo,
+            memo.id === selectedId ? { ...memo, contents: newContents } : memo,
           )
-        : [...prevMemos, { id: selectedId, contents: newContent }];
+        : [...prevMemos, { id: selectedId, contents: newContents }];
       return updatedMemos;
     });
-    localStorage.setItem(selectedId, JSON.stringify(newContent));
+    localStorage.setItem(selectedId, JSON.stringify(newContents));
   };
 
   function handleDelete() {
