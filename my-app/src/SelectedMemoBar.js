@@ -1,37 +1,39 @@
-import React, { useContext } from "react";
+import { React, useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 import Button from "./Button.js";
 import { LoginContext } from "./App.js";
 
 export default function SelectedMemoBar({
-  contents,
-  isEditing,
+  initialMemoContent,
   handleSubmit,
-  handleChange,
   handleDelete,
 }) {
+  const [content, setContent] = useState(initialMemoContent);
+
+  const onSubmit = (e) => {
+    handleSubmit(e, content);
+  };
+
+  function handleChange(e) {
+    setContent(e.target.value);
+  }
+
   const login = useContext(LoginContext);
   return (
     <div className="selected-memo-bar">
       {login ? (
-        isEditing ? (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <textarea value={contents} onChange={handleChange} />
-              <Button type="submit" className="edit-btn">
-                編集
-              </Button>
-            </form>
-            <Button type="delete" className="delete-btn" onClick={handleDelete}>
-              削除
+        <div>
+          <form onSubmit={onSubmit}>
+            <textarea value={content} onChange={handleChange} />
+            <Button type="submit" className="edit-btn">
+              編集
             </Button>
-          </div>
-        ) : (
-          ""
-        )
-      ) : isEditing ? (
-        <textarea value={contents}></textarea>
+          </form>
+          <Button type="delete" className="delete-btn" onClick={handleDelete}>
+            削除
+          </Button>
+        </div>
       ) : (
         ""
       )}
@@ -40,9 +42,7 @@ export default function SelectedMemoBar({
 }
 
 SelectedMemoBar.propTypes = {
-  contents: PropTypes.array,
-  isEditing: PropTypes.bool,
+  initialMemoContent: PropTypes.string,
   handleSubmit: PropTypes.func,
-  handleChange: PropTypes.func,
   handleDelete: PropTypes.func,
 };
