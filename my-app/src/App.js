@@ -75,20 +75,22 @@ export default function App() {
           >
             {isLoggedIn ? "ログアウト" : "ログイン"}
           </Button>
-          <MemoList
-            memos={memos}
-            selectedId={selectedId}
-            handleAdd={handleAdd}
-            handleClick={handleClick}
-          />
-          {selectedId && (
-            <SelectedMemoBar
-              key={selectedId}
-              initialMemoContent={selectedMemoContent}
-              handleSubmit={handleSubmit}
-              handleDelete={handleDelete}
+          <div className="memo-details">
+            <MemoList
+              memos={memos}
+              selectedId={selectedId}
+              handleAdd={handleAdd}
+              handleClick={handleClick}
             />
-          )}
+            {selectedId && (
+              <SelectedMemoBar
+                key={selectedId}
+                initialMemoContent={selectedMemoContent}
+                handleSubmit={handleSubmit}
+                handleDelete={handleDelete}
+              />
+            )}
+          </div>
         </div>
       </LoginContext.Provider>
     </>
