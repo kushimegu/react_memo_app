@@ -35,7 +35,7 @@ export default function SelectedMemoBar({
           </Button>
         </div>
       ) : (
-        ""
+        <textarea value={content}></textarea>
       )}
     </div>
   );
