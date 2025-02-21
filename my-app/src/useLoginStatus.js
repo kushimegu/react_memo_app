@@ -7,7 +7,10 @@ export const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => setIsLoggedIn(true);
-  const logout = () => setIsLoggedIn(false);
+  const logout = () => {
+    setIsLoggedIn(false);
+    window.location.reload();
+  };
 
   return (
     <LoginContext.Provider value={{ isLoggedIn, login, logout }}>
