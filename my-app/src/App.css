@@ -1,12 +1,27 @@
 .memo-app {
   display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.login-btn {
+  border: solid 1px;
+  border-radius: 8px;
+  margin-left: 400px;
+  width: 100px;
+  align-self: flex-end;
+}
+
+.memo-details {
+  display: flex;
+  justify-content: space-between;
 }
 
 .memo-list {
   list-style: none;
-  margin: 0;
+  margin: 10px;
   padding: 0;
-  width: 80px;
+  width: 100px;
 }
 
 .title-list {
@@ -24,8 +39,9 @@
 }
 
 .selected-memo-bar {
-  margin: 0px 50px;
+  margin-top: 10px;
   width: 300px;
+  align-self: flex-end;
 }
 
 textarea {
