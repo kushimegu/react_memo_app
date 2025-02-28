@@ -1,17 +1,15 @@
-import { React, useState, useEffect, createContext } from "react";
+import { React, useState, useEffect } from "react";
 import { ulid } from "ulid";
 
 import "./App.css";
+import { LoginProvider } from "./useLoginStatus.js";
+import LoginButton from "./LoginButton.js";
 import MemoList from "./MemoList.js";
 import SelectedMemoBar from "./SelectedMemoBar.js";
-import Button from "./Button.js";
-
-export const LoginContext = createContext(false);
 
 export default function App() {
   const [memos, setMemos] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const allMemos = [];
@@ -64,35 +62,26 @@ export default function App() {
   }
 
   return (
-    <>
-      <LoginContext.Provider value={isLoggedIn}>
-        <div className="memo-app">
-          <Button
-            className="login-btn"
-            onClick={() => {
-              setIsLoggedIn(!isLoggedIn);
-            }}
-          >
-            {isLoggedIn ? "ログアウト" : "ログイン"}
-          </Button>
-          <div className="memo-details">
-            <MemoList
-              memos={memos}
-              selectedId={selectedId}
-              handleAdd={handleAdd}
-              handleClick={handleClick}
+    <LoginProvider>
+      <div className="memo-app">
+        <LoginButton />
+        <div className="memo-details">
+          <MemoList
+            memos={memos}
+            selectedId={selectedId}
+            handleAdd={handleAdd}
+            handleClick={handleClick}
+          />
+          {selectedId && (
+            <SelectedMemoBar
+              key={selectedId}
+              initialMemoContent={selectedMemoContent}
+              handleSubmit={handleSubmit}
+              handleDelete={handleDelete}
             />
-            {selectedId && (
-              <SelectedMemoBar
-                key={selectedId}
-                initialMemoContent={selectedMemoContent}
-                handleSubmit={handleSubmit}
-                handleDelete={handleDelete}
-              />
-            )}
-          </div>
+          )}
         </div>
-      </LoginContext.Provider>
-    </>
+      </div>
+    </LoginProvider>
   );
 }

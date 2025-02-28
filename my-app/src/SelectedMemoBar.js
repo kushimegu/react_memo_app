@@ -1,8 +1,8 @@
-import { React, useState, useContext } from "react";
+import { React, useState } from "react";
 import PropTypes from "prop-types";
 
+import { useLoginStatus } from "./useLoginStatus.js";
 import Button from "./Button.js";
-import { LoginContext } from "./App.js";
 
 export default function SelectedMemoBar({
   initialMemoContent,
@@ -10,6 +10,7 @@ export default function SelectedMemoBar({
   handleDelete,
 }) {
   const [content, setContent] = useState(initialMemoContent);
+  const { isLoggedIn } = useLoginStatus();
 
   const onSubmit = (e) => {
     handleSubmit(e, content);
@@ -19,10 +20,9 @@ export default function SelectedMemoBar({
     setContent(e.target.value);
   }
 
-  const login = useContext(LoginContext);
   return (
     <div className="selected-memo-bar">
-      {login ? (
+      {isLoggedIn ? (
         <div>
           <form onSubmit={onSubmit}>
             <textarea value={content} onChange={handleChange} />
@@ -35,7 +35,7 @@ export default function SelectedMemoBar({
           </Button>
         </div>
       ) : (
-        <textarea value={content}></textarea>
+        <textarea value={content} readOnly></textarea>
       )}
     </div>
   );
