@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { useLoginStatus } from "./useLoginStatus.js";
@@ -11,6 +11,12 @@ export default function SelectedMemoBar({
 }) {
   const [content, setContent] = useState(initialMemoContent);
   const { isLoggedIn } = useLoginStatus();
+
+  useEffect(() => {
+    if (!isLoggedIn && content !== initialMemoContent) {
+      setContent(initialMemoContent);
+    }
+  }, [isLoggedIn]);
 
   const onSubmit = (e) => {
     handleSubmit(e, content);
