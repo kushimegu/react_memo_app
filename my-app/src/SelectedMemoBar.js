@@ -5,10 +5,13 @@ import { useLoginStatus } from "./useLoginStatus.js";
 import Button from "./Button.js";
 
 export default function SelectedMemoBar({
-  initialMemoContent,
+  selectedMemo,
   handleSubmit,
   handleDelete,
 }) {
+  const initialMemoContent = selectedMemo
+    ? selectedMemo.contents.join("\n")
+    : "新規メモ";
   const [content, setContent] = useState(initialMemoContent);
   const { isLoggedIn } = useLoginStatus();
 
@@ -24,6 +27,10 @@ export default function SelectedMemoBar({
 
   function handleChange(e) {
     setContent(e.target.value);
+  }
+
+  if (!isLoggedIn && !selectedMemo) {
+    return null;
   }
 
   return (
@@ -48,7 +55,7 @@ export default function SelectedMemoBar({
 }
 
 SelectedMemoBar.propTypes = {
-  initialMemoContent: PropTypes.string,
+  selectedMemo: PropTypes.object,
   handleSubmit: PropTypes.func,
   handleDelete: PropTypes.func,
 };

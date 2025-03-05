@@ -23,9 +23,6 @@ export default function App() {
   }, []);
 
   const selectedMemo = memos.find((memo) => memo.id === selectedId);
-  const selectedMemoContent = selectedMemo
-    ? selectedMemo.contents.join("\n")
-    : "新規メモ";
 
   function handleAdd() {
     setSelectedId(ulid());
@@ -75,7 +72,7 @@ export default function App() {
           {selectedId && (
             <SelectedMemoBar
               key={selectedId}
-              initialMemoContent={selectedMemoContent}
+              selectedMemo={selectedMemo}
               handleSubmit={handleSubmit}
               handleDelete={handleDelete}
             />
