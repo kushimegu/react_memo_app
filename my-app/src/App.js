@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 import { ulid } from "ulid";
 
 import "./App.css";
+import { LoginProvider } from "./useLoginStatus.js";
+import LoginButton from "./LoginButton.js";
 import MemoList from "./MemoList.js";
 import SelectedMemoBar from "./SelectedMemoBar.js";
 
@@ -21,9 +23,6 @@ export default function App() {
   }, []);
 
   const selectedMemo = memos.find((memo) => memo.id === selectedId);
-  const selectedMemoContent = selectedMemo
-    ? selectedMemo.contents.join("\n")
-    : "新規メモ";
 
   function handleAdd() {
     setSelectedId(ulid());
@@ -60,21 +59,26 @@ export default function App() {
   }
 
   return (
-    <div className="memo-app">
-      <MemoList
-        memos={memos}
-        selectedId={selectedId}
-        handleAdd={handleAdd}
-        handleClick={handleClick}
-      />
-      {selectedId && (
-        <SelectedMemoBar
-          key={selectedId}
-          initialMemoContent={selectedMemoContent}
-          handleSubmit={handleSubmit}
-          handleDelete={handleDelete}
-        />
-      )}
-    </div>
+    <LoginProvider>
+      <div className="memo-app">
+        <LoginButton />
+        <div className="memo-details">
+          <MemoList
+            memos={memos}
+            selectedId={selectedId}
+            handleAdd={handleAdd}
+            handleClick={handleClick}
+          />
+          {selectedId && (
+            <SelectedMemoBar
+              key={selectedId}
+              selectedMemo={selectedMemo}
+              handleSubmit={handleSubmit}
+              handleDelete={handleDelete}
+            />
+          )}
+        </div>
+      </div>
+    </LoginProvider>
   );
 }

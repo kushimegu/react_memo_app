@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Memo from "./Memo.js";
+import { useLoginStatus } from "./useLoginStatus.js";
 
 export default function MemoList({
   memos,
@@ -9,6 +10,8 @@ export default function MemoList({
   handleAdd,
   handleClick,
 }) {
+  const { isLoggedIn } = useLoginStatus();
+
   return (
     <ul className="memo-list">
       {memos.map((memo) => (
@@ -19,9 +22,11 @@ export default function MemoList({
           <Memo memo={memo} handleClick={handleClick} />
         </li>
       ))}
-      <div className="plus-sign" onClick={handleAdd}>
-        +
-      </div>
+      {isLoggedIn && (
+        <div className="plus-sign" onClick={handleAdd}>
+          +
+        </div>
+      )}
     </ul>
   );
 }
